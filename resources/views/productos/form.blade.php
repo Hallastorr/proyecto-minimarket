@@ -39,6 +39,7 @@
 
 <div class="form-group">
     <label for="Imagen">Imagen: </label>
+    {{-- Si la imagen existe, la muestra en pantalla --}}
     @if (isset($producto->Imagen))
         <img src="{{ asset('storage') . '/' . $producto->Imagen }}" class="img-thumbnail" width="100">
     @endif
