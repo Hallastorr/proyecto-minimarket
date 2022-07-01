@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\ClienteController;
 
+//Se inicia con el login
 Route::get('/', function () {
     return view('auth.login');
 });

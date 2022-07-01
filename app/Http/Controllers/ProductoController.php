@@ -16,6 +16,7 @@ class ProductoController extends Controller
      */
     public function index()
     {
+        // Recolecta los datos de la BD para luego enviarlos junto al view
         $datos['productos']=Producto::paginate(2);
         return view('productos.index', $datos);
     }
@@ -27,6 +28,7 @@ class ProductoController extends Controller
      */
     public function create()
     {
+        // Muestra el view de create
         return view('productos.create');
     }
 
@@ -38,7 +40,7 @@ class ProductoController extends Controller
      */
     public function store(Request $request)
     {
-
+        // Se le dan condiciones a cumplir a cada campo de producto.
         $campos=[
             'Nombre'=>'required|string|max:100',
             'Categoría'=>'required|string|max:100',
@@ -47,11 +49,13 @@ class ProductoController extends Controller
             'Imagen'=>'required|max:10000|mimes:jpeg,jpg,png',
         ];
 
+        // Envia un mensaje en caso de no cumplit las condiciones.
         $mensaje=[
             'required'=>'Debe ingresar un :attribute',
             'Imagen.required'=>'Debe ingresar una Imagen'
         ];
 
+        // Se valida que los datos que se almacenaron cumplan las condiciones y se envien los mensajes
         $this->validate($request, $campos, $mensaje);
 
         //Se guarda la informacion en una variable omitiendo el dato "_token"
@@ -87,6 +91,7 @@ class ProductoController extends Controller
      */
     public function edit($id)
     {
+        // Busca el producto por id
         $producto=Producto::findOrFail($id);
         return view('productos.edit', compact('producto'));
     }
@@ -118,7 +123,6 @@ class ProductoController extends Controller
             $mensaje=['Imagen.required'=>'Debe ingresar una Imagen'];
         }
 
-        // Valida los campos antes mencionados
         $this->validate($request, $campos, $mensaje);
 
         $infoProducto = request()->except('_token', '_method');
@@ -131,8 +135,6 @@ class ProductoController extends Controller
 
         Producto::where('id','=',$id)->update($infoProducto);
 
-        $producto=Producto::findOrFail($id);
-        // return view('productos.edit', compact('producto'));
         return redirect('productos')->with('mensaje', 'Producto actualizado');
     }
 
